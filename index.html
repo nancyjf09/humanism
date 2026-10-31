@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"></meta>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+<title>Humanistic Psychology — The Third Force</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #d97706;
+    --primary-light: #f59e0b;
+    --primary-dark: #b45309;
+    --accent-rose: #f43f5e;
+    --accent-teal: #14b8a6;
+    --bg-dark: #1a1209;
+    --bg-card: #261c12;
+    --bg-card-hover: #36281a;
+    --text-main: #f5e8d8;
+    --text-muted: #b8a894;
+    --shadow: 0 25px 80px rgba(0,0,0,0.5);
+    --radius: 16px;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #120c05 0%, #1a140e 50%, #1c140a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text-main);
+    overflow-x: hidden;
+  }
+  .presentation {
+    width: 100%;
+    max-width: 1100px;
+    background: var(--bg-dark);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .header {
+    background: linear-gradient(135deg, #92400e 0%, #d97706 50%, #f59e0b 100%);
+    padding: 45px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3em;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    position: relative;
+    letter-spacing: -1px;
+  }
+  .header .subtitle {
+    font-size: 1.15em;
+    color: rgba(255,255,255,0.9);
+    margin-top: 10px;
+    font-weight: 300;
+    position: relative;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .header .year-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 0.85em;
+    margin-top: 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+  }
+  .nav {
+    display: flex;
+    background: rgba(0,0,0,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav button {
+    flex: 1;
+    min-width: 130px;
+    padding: 18px 14px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+  }
+  .nav button:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.03);
+  }
+  .nav button.active {
+    color: var(--primary-light);
+    border-bottom-color: var(--primary);
+    background: linear-gradient(to top, rgba(217,119,6,0.12), transparent);
+  }
+  .nav button .icon {
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .content {
+    padding: 45px 50px;
+    min-height: 520px;
+    position: relative;
+  }
+  .slide {
+    display: none;
+    animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .slide.active {
+    display: block;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .slide h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-light);
+    font-size: 2em;
+    margin-bottom: 28px;
+    padding-left: 18px;
+    border-left: 5px solid var(--primary);
+    font-weight: 700;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 35px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-light), var(--accent-rose));
+    border-radius: 3px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 26px;
+    padding-left: 22px;
+    padding-bottom: 6px;
+    transition: transform 0.3s;
+    cursor: default;
+  }
+  .timeline-item:hover {
+    transform: translateX(5px);
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 4px solid var(--bg-dark);
+    box-shadow: 0 0 0 2px var(--primary);
+    transition: all 0.3s;
+  }
+  .timeline-item:hover::before {
+    background: var(--accent-rose);
+    box-shadow: 0 0 0 3px var(--accent-rose), 0 0 20px rgba(244,63,94,0.4);
+  }
+  .timeline-year {
+    color: var(--primary-light);
+    font-weight: 700;
+    font-size: 1.15em;
+    font-family: 'Playfair Display', serif;
+  }
+  .timeline-item p {
+    margin-top: 4px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    font-size: 0.97em;
+  }
+  .timeline-item p strong {
+    color: var(--text-main);
+  }
+  .quote-box {
+    background: linear-gradient(135deg, rgba(217,119,6,0.15), rgba(244,63,94,0.08));
+    border-left: 5px solid var(--primary);
+    padding: 28px 32px;
+    margin: 28px 0;
+    border-radius: 0 14px 14px 0;
+    font-style: italic;
+    font-size: 1.25em;
+    line-height: 1.7;
+    font-family: 'Playfair Display', serif;
+    color: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-box::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 5em;
+    color: rgba(217,119,6,0.15);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  .quote-box .author {
+    text-align: right;
+    font-style: normal;
+    color: var(--primary-light);
+    margin-top: 14px;
+    font-size: 0.85em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .concept-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .concept-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent-rose));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .concept-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(217,119,6,0.3);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  }
+  .concept-card:hover::before {
+    transform: scaleX(1);
+  }
+  .concept-card h4 {
+    color: var(--primary-light);
+    margin: 0 0 10px 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-card p {
+    margin: 0;
+    font-size: 0.92em;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+  .pioneer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .pioneer-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 26px;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pioneer-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(217,119,6,0.4);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .pioneer-card .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3em;
+    color: var(--primary-light);
+    margin-bottom: 4px;
+  }
+  .pioneer-card .years {
+    font-size: 0.82em;
+    color: var(--accent-rose);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .pioneer-card p {
+    font-size: 0.93em;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+  .pioneer-card p strong {
+    color: var(--text-main);
+  }
+  .comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.95em;
+  }
+  .comparison-table th {
+    background: linear-gradient(135deg, rgba(217,119,6,0.35), rgba(217,119,6,0.2));
+    color: #fff;
+    padding: 16px 18px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .comparison-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.6;
+  }
+  .comparison-table tr:nth-child(even) td {
+    background: rgba(255,255,255,0.02);
+  }
+  .comparison-table tr:hover td {
+    background: rgba(217,119,6,0.06);
+    transition: background 0.3s;
+  }
+  .comparison-table td:first-child {
+    font-weight: 600;
+    color: var(--accent-rose);
+    width: 20%;
+  }
+  .comparison-table td:nth-child(2) {
+    color: var(--text-main);
+    width: 40%;
+  }
+  .comparison-table td:nth-child(3) {
+    color: var(--text-muted);
+    width: 40%;
+  }
+  .legacy-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+  .legacy-list li {
+    padding: 16px 0 16px 38px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    line-height: 1.7;
+    font-size: 0.97em;
+    transition: all 0.3s;
+    border-radius: 0 8px 8px 0;
+  }
+  .legacy-list li:hover {
+    background: rgba(255,255,255,0.02);
+    padding-left: 44px;
+  }
+  .legacy-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.3em;
+    transition: all 0.3s;
+  }
+  .legacy-list li:hover::before {
+    left: 6px;
+    color: var(--accent-rose);
+  }
+  .legacy-list li strong {
+    color: var(--primary-light);
+  }
+  .badge-container {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .fact-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(244, 63, 94, 0.1);
+    color: var(--accent-rose);
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 0.85em;
+    font-weight: 500;
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .fact-badge:hover {
+    background: rgba(244, 63, 94, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(244,63,94,0.15);
+  }
+  .highlight {
+    color: var(--accent-rose);
+    font-weight: 600;
+  }
+  .intro-text {
+    font-size: 1.08em;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .intro-text strong {
+    color: var(--text-main);
+  }
+  .footer-callout {
+    margin-top: 28px;
+    text-align: center;
+    padding: 22px;
+    background: linear-gradient(135deg, rgba(217,119,6,0.12), rgba(244,63,94,0.08));
+    border-radius: 14px;
+    border: 1px solid rgba(217,119,6,0.15);
+  }
+  .footer-callout strong {
+    color: var(--primary-light);
+    font-size: 1.15em;
+    font-family: 'Playfair Display', serif;
+  }
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 2px 2px 0;
+  }
+  .slide-counter {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .nav-arrows {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px 25px;
+    gap: 15px;
+  }
+  .nav-arrows button {
+    background: linear-gradient(135deg, rgba(217,119,6,0.2), rgba(217,119,6,0.1));
+    border: 1px solid rgba(217,119,6,0.3);
+    color: var(--primary-light);
+    padding: 12px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .nav-arrows button:hover {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(217,119,6,0.3);
+  }
+  .nav-arrows button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  @media (max-width: 768px) {
+    .header h1 { font-size: 1.9em; }
+    .content { padding: 25px 20px; min-height: 400px; }
+    .nav button { min-width: 100px; padding: 14px 10px; font-size: 0.8em; }
+    .nav button .icon { font-size: 1.1em; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .pioneer-grid { grid-template-columns: 1fr; }
+    .comparison-table { font-size: 0.85em; }
+    .comparison-table th, .comparison-table td { padding: 12px 10px; }
+    .nav-arrows { padding: 0 20px 20px; }
+    .nav-arrows button { padding: 10px 20px; font-size: 0.85em; }
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+</style>
+</head>
+<body>
+<div class="presentation">
+  <div class="header">
+    <h1>Humanistic Psychology</h1>
+    <div class="subtitle">The Third Force — Psychology of the Whole Person</div>
+    <div class="year-badge">1950s — Present</div>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width: 16.6%;"></div>
+  </div>
+  <div class="nav">
+    <button class="active" onclick="showSlide(0)">
+      <span class="icon">🚀</span>Third Force
+    </button>
+    <button onclick="showSlide(1)">
+      <span class="icon">👤</span>Pioneers
+    </button>
+    <button onclick="showSlide(2)">
+      <span class="icon">🌱</span>What Is It?
+    </button>
+    <button onclick="showSlide(3)">
+      <span class="icon">💡</span>Key Concepts
+    </button>
+    <button onclick="showSlide(4)">
+      <span class="icon">⚖️</span>vs Others
+    </button>
+    <button onclick="showSlide(5)">
+      <span class="icon">🏛️</span>Legacy
+    </button>
+  </div>
+  <div class="content">
+    <!-- Slide 1: The Third Force -->
+    <div class="slide active">
+      <h2>The Third Force in Psychology</h2>
+      <div class="quote-box">
+        The great lesson from the true mystics... is that the sacred is in the ordinary, that it is to be found in one's daily life, in one's neighbors, friends, and family, in one's backyard.
+        <div class="author">— Abraham Maslow</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-year">1943</span>
+          <p><strong>Abraham Maslow</strong> published "A Theory of Human Motivation" in <em>Psychological Review</em>, introducing the <strong>hierarchy of needs</strong> — the foundational concept that would define humanistic psychology.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1951</span>
+          <p><strong>Carl Rogers</strong> published <em>Client-Centered Therapy</em>, presenting a radically new approach to psychotherapy that trusted the client's innate capacity for growth — the <strong>actualizing tendency</strong>.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1954</span>
+          <p>Maslow published <em>Motivation and Personality</em>, formally establishing humanistic psychology as a coherent theoretical framework and coining the term <strong>"self-actualization."</strong></p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1961</span>
+          <p>The <strong>American Association for Humanistic Psychology (AAHP)</strong> was founded, with key figures including Maslow, Rogers, Rollo May, and Charlotte Bühler. It was explicitly positioned as a <strong>"Third Force"</strong> — an alternative to both psychoanalysis and behaviorism.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1962</span>
+          <p>The first issue of the <strong><em>Journal of Humanistic Psychology</em></strong> was published, with Anthony Sutich as editor. The journal became the primary outlet for humanistic research and theory.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1962</span>
+          <p><strong>Maslow</strong> published <em>Toward a Psychology of Being</em>, exploring the characteristics of self-actualizing people and the concept of <strong>peak experiences</strong> — moments of transcendence and profound fulfillment.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1969</span>
+          <p>The <strong>Esalen Institute</strong> in Big Sur, California, became the spiritual and intellectual center of the human potential movement — blending humanistic psychology with Eastern philosophy, encounter groups, and bodywork.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1971</span>
+          <p>The <strong>Association for Humanistic Psychology (AHP)</strong> was formally incorporated. It grew rapidly, attracting therapists, educators, and spiritual seekers drawn to its optimistic vision of human nature.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">1970s–Present</span>
+          <p>Humanistic psychology influenced <strong>positive psychology, coaching, wellness culture, and self-help</strong>. While academic influence waned, its practical applications in therapy, education, and personal development remain enormous.</p>
+        </div>
+      </div>
+      <div class="badge-container">
+        <span class="fact-badge">🌟 Self-Actualization</span>
+        <span class="fact-badge">🤝 Client-Centered</span>
+        <span class="fact-badge">🧘 Third Force</span>
+        <span class="fact-badge">🏔️ Peak Experiences</span>
+        <span class="fact-badge">💫 Human Potential</span>
+      </div>
+    </div>
+    <!-- Slide 2: Key Pioneers -->
+    <div class="slide">
+      <h2>The Pioneers of Humanistic Psychology</h2>
+      <div class="pioneer-grid">
+        <div class="pioneer-card">
+          <div class="name">Carl Rogers</div>
+          <div class="years">1902 — 1987</div>
+          <p>The <strong>founder of client-centered (person-centered) therapy</strong>. Born in Illinois, originally trained in theology before switching to psychology. Rogers believed every person has an innate <strong>"actualizing tendency"</strong> — a drive toward growth and fulfillment. His therapeutic approach emphasized <strong>unconditional positive regard, empathy, and genuineness</strong> as the three core conditions for therapeutic change. His methods revolutionized counseling and education worldwide.</p>
+        </div>
+        <div class="pioneer-card">
+          <div class="name">Abraham Maslow</div>
+          <div class="years">1908 — 1970</div>
+          <p>The <strong>intellectual architect</strong> of humanistic psychology. Born in Brooklyn to Russian-Jewish immigrant parents. Rejected behaviorism after studying with Harry Harlow. Created the famous <strong>hierarchy of needs</strong> and studied "self-actualizing" people — those who had realized their full potential. He identified characteristics like autonomy, creativity, and peak experiences. His work bridged psychology and spirituality, making him one of the most influential psychologists of the 20th century.</p>
+        </div>
+        <div class="pioneer-card">
+          <div class="name">Rollo May</div>
+          <div class="years">1909 — 1994</div>
+          <p>The <strong>existential voice</strong> of humanistic psychology. Trained as a theologian before becoming a psychoanalyst and existential psychologist. May brought <strong>European existential philosophy</strong> (Kierkegaard, Nietzsche, Heidegger) into American psychology. He emphasized <strong>anxiety, freedom, responsibility, and the search for meaning</strong> as central to the human condition. His books <em>Man's Search for Himself</em> and <em>Love and Will</em> were bestsellers.</p>
+        </div>
+        <div class="pioneer-card">
+          <div class="name">Viktor Frankl</div>
+          <div class="years">1905 — 1997</div>
+          <p>The <strong>founder of logotherapy</strong> — "therapy through meaning." An Austrian neurologist and psychiatrist who survived Nazi concentration camps. In <em>Man's Search for Meaning</em> (1946), he argued that humans can endure almost any suffering if they can find <strong>meaning in it</strong>. His "will to meaning" became a cornerstone of existential-humanistic psychology. He influenced both psychotherapy and the self-help movement profoundly.</p>
+        </div>
+        <div class="pioneer-card">
+          <div class="name">Fritz Perls</div>
+          <div class="years">1893 — 1970</div>
+          <p>The <strong>founder of Gestalt therapy</strong>. Born in Berlin, trained in psychoanalysis, but broke with Freud to develop a more experiential, present-focused approach. Perls emphasized <strong>awareness, personal responsibility, and the "here and now."</strong> His confrontational, theatrical style at Esalen made him a counterculture icon. Gestalt therapy remains a major humanistic approach in clinical practice worldwide.</p>
+        </div>
+        <div class="pioneer-card">
+          <div class="name">Charlotte Bühler</div>
+          <div class="years">1893 — 1974</div>
+          <p>An Austrian-American developmental psychologist who studied <strong>human development across the lifespan</strong>. She argued that humans are not merely reactive organisms but have <strong>intentional goals and purposes</strong> that guide their development. Her work on life goals and the "basic tendencies" of human life provided empirical support for humanistic concepts of growth and self-direction.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3: What is Humanistic Psychology? -->
+    <div class="slide">
+      <h2>What is Humanistic Psychology?</h2>
+      <div class="quote-box">
+        The good life is a process, not a state of being. It is a direction, not a destination.
+        <div class="author">— Carl Rogers</div>
+      </div>
+      <p class="intro-text">
+        Humanistic psychology emerged in the 1950s as a <strong>"Third Force"</strong> — a deliberate alternative to the two dominant schools: Freudian psychoanalysis (which saw humans as driven by unconscious conflicts) and behaviorism (which saw humans as stimulus-response machines). The humanists argued that both schools were <span class="highlight">dehumanizing</span> — they ignored free will, creativity, personal growth, and the search for meaning.
+      </p>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>🌟 Optimistic View of Human Nature</h4>
+          <p>Humans are fundamentally <strong>good, growth-oriented, and self-directed</strong>. We are not prisoners of the unconscious (Freud) or the environment (Watson) — we have the capacity to choose our own path.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🔓 Free Will &amp; Agency</h4>
+          <p>Humanistic psychology centers <strong>personal choice and responsibility</strong>. We are not determined by past traumas or external rewards — we actively shape our lives through conscious decisions.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🧘 Holism</h4>
+          <p>The person must be studied as a <strong>whole</strong> — not as a collection of symptoms, behaviors, or cognitive processes. Mind, body, and spirit are integrated. The subjective, lived experience is paramount.</p>
+        </div>
+        <div class="concept-card">
+          <h4>📈 Self-Actualization</h4>
+          <p>Every person has an innate drive toward <strong>growth, fulfillment, and the realization of potential</strong>. The goal of psychology is not to cure illness but to help people become fully themselves.</p>
+        </div>
+      </div>
+      <div class="footer-callout">
+        <strong>The Humanistic Creed:</strong> Psychology should study <em>healthy, thriving people</em> — not just the sick, the conditioned, or the conflicted. The goal is not adjustment but <em>authenticity</em>.
+      </div>
+    </div>
+    <!-- Slide 4: Key Concepts -->
+    <div class="slide">
+      <h2>Core Concepts of Humanistic Psychology</h2>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>🏔️ Hierarchy of Needs (Maslow)</h4>
+          <p>Human needs are arranged in a pyramid: <strong>physiological → safety → love/belonging → esteem → self-actualization</strong>. Lower needs must be met before higher ones motivate behavior. At the peak, self-actualized people are creative, autonomous, and reality-centered.</p>
+        </div>
+        <div class="concept-card">
+          <h4>💫 Peak Experiences (Maslow)</h4>
+          <p>Moments of <strong>profound joy, wonder, and transcendence</strong> — "being values" that reveal life's deepest meaning. Self-actualizers have these frequently. They are characterized by loss of self-consciousness, timelessness, and a sense of unity with the world.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🤝 Unconditional Positive Regard (Rogers)</h4>
+          <p>The therapist must offer <strong>complete acceptance without judgment</strong>. When people experience this, they can drop their defensive facades and become their authentic selves. It is also essential in parenting and relationships.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🌱 Actualizing Tendency (Rogers)</h4>
+          <p>An innate, biological drive toward <strong>growth, development, and autonomy</strong> present in all living things. Given the right conditions — empathy, congruence, and unconditional positive regard — this tendency flourishes.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🎯 Self-Concept &amp; Congruence</h4>
+          <p>Psychological distress arises from <strong>incongruence</strong> — a gap between one's "ideal self" and "real self." Therapy aims to reduce this gap by fostering self-acceptance and authentic living.</p>
+        </div>
+        <div class="concept-card">
+          <h4>🔥 Existential Anxiety (May/Frankl)</h4>
+          <p>Anxiety is not a symptom to eliminate but a <strong>signal of existential challenge</strong> — freedom, isolation, meaninglessness, and death. Facing these truths with courage is the path to authentic existence.</p>
+        </div>
+        <div class="concept-card">
+          <h4>📖 Logotherapy (Frankl)</h4>
+          <p>"Therapy through meaning." Frankl argued that the <strong>primary human drive is the search for meaning</strong> — not pleasure (Freud) or power (Adler). Even in suffering, meaning can be found through creativity, experience, or attitude.</p>
+        </div>
+        <div class="concept-card">
+          <h4>👁️ Here and Now (Perls)</h4>
+          <p>Gestalt therapy emphasizes <strong>present-moment awareness</strong>. The past is gone, the future is not yet — only the "here and now" is real. Unfinished business from the past must be brought into present awareness to be resolved.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 5: Comparison -->
+    <div class="slide">
+      <h2>Humanistic vs. Psychoanalysis &amp; Behaviorism</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Humanistic Psychology</th>
+            <th>Psychoanalysis / Behaviorism</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>View of Human Nature</td>
+            <td>Fundamentally <strong>good, growth-oriented, and free</strong></td>
+            <td>Driven by dark impulses (Freud) or shaped by environment (Watson)</td>
+          </tr>
+          <tr>
+            <td>Subject Matter</td>
+            <td><strong>Conscious experience, free will, self-actualization, meaning</strong></td>
+            <td>Unconscious conflicts (Freud) or observable behavior (Watson)</td>
+          </tr>
+          <tr>
+            <td>Goal of Therapy</td>
+            <td><strong>Self-actualization, authenticity, personal growth</strong></td>
+            <td>Symptom relief / adjustment to society (Freud) or behavior modification (Watson)</td>
+          </tr>
+          <tr>
+            <td>Therapist Role</td>
+            <td><strong>Facilitator</strong> — empathetic, non-directive, accepting</td>
+            <td>Expert interpreter (Freud) or behavior controller (Watson)</td>
+          </tr>
+          <tr>
+            <td>Method</td>
+            <td>Phenomenology, <strong>qualitative research</strong>, case studies, encounter groups</td>
+            <td>Free association, dream analysis (Freud) / conditioning experiments (Watson)</td>
+          </tr>
+          <tr>
+            <td>Determinism</td>
+            <td><strong>Free will</strong> — humans choose and create their lives</td>
+            <td>Psychic determinism (Freud) / environmental determinism (Watson)</td>
+          </tr>
+          <tr>
+            <td>Focus</td>
+            <td><strong>Healthy, thriving individuals</strong> and their potential</td>
+            <td>Neurosis, pathology, and maladaptive behavior</td>
+          </tr>
+          <tr>
+            <td>Philosophy</td>
+            <td><strong>Phenomenological &amp; existential</strong> — subjective truth matters</td>
+            <td>Scientific determinism — objective, reductionist</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Slide 6: Legacy -->
+    <div class="slide">
+      <h2>Legacy &amp; Modern Influence</h2>
+      <div class="quote-box">
+        When I look at the world I'm pessimistic, but when I look at people I am optimistic.
+        <div class="author">— Carl Rogers</div>
+      </div>
+      <ul class="legacy-list">
+        <li><strong>Positive Psychology:</strong> Martin Seligman's positive psychology movement (1998) is a direct intellectual descendant. Maslow's study of self-actualization became the study of "flourishing" — strengths, virtues, and well-being.</li>
+        <li><strong>Person-Centered Therapy:</strong> Rogers's client-centered approach remains one of the most widely practiced forms of counseling globally. The core conditions (empathy, congruence, unconditional positive regard) are now considered essential across all therapeutic modalities.</li>
+        <li><strong>Coaching &amp; Self-Help:</strong> The entire life coaching industry, wellness movement, and self-help genre trace their roots to humanistic psychology. Concepts like "living your best life" and "authentic self" are humanistic ideas in popular form.</li>
+        <li><strong>Education:</strong> Student-centered learning, experiential education, and the emphasis on creativity and self-expression in schools all derive from humanistic principles. Rogers's <em>Freedom to Learn</em> transformed pedagogy.</li>
+        <li><strong>Organizational Psychology:</strong> Maslow's hierarchy of needs became a staple of management theory. Concepts like employee engagement, workplace well-being, and servant leadership are humanistic ideas applied to business.</li>
+        <li><strong>Mindfulness &amp; Wellness:</strong> The integration of Eastern contemplative practices with Western psychology — now a multi-billion-dollar wellness industry — was pioneered by humanistic psychologists at Esalen and beyond.</li>
+        <li><strong>Criticism:</strong> Critics accused humanistic psychology of being <strong>unscientific, overly optimistic, and culturally biased</strong> toward individualistic Western values. Its rejection of experimental methods limited academic credibility. The "me generation" excesses of the 1970s were partly blamed on its influence.</li>
+        <li><strong>Enduring Truth:</strong> Despite criticism, humanistic psychology permanently changed psychology's focus. It proved that studying <strong>health, growth, and meaning</strong> is as scientifically valuable as studying pathology and conditioning.</li>
+      </ul>
+      <div class="footer-callout">
+        <strong>Humanistic psychology did not just add a third school to psychology — it reminded the discipline that its ultimate subject is not the rat, the neuron, or the symptom, but the human being in search of meaning.</strong>
+      </div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1 / 6</div>
+  </div>
+  <div class="nav-arrows">
+    <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+    <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+</div>
+<script>
+  let currentSlide = 0;
+  const totalSlides = 6;
+  const slides = document.querySelectorAll('.slide');
+  const navButtons = document.querySelectorAll('.nav button');
+  const progressFill = document.getElementById('progressFill');
+  const slideCounter = document.getElementById('slideCounter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  function showSlide(index) {
+    if (index < 0 || index >= totalSlides) return;
+    currentSlide = index;
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    navButtons.forEach((b, i) => {
+      b.classList.toggle('active', i === index);
+    });
+    progressFill.style.width = ((index + 1) / totalSlides * 100) + '%';
+    slideCounter.textContent = (index + 1) + ' / ' + totalSlides;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === totalSlides - 1;
+    document.querySelector('.content').scrollTop = 0;
+  }
+  function changeSlide(direction) {
+    showSlide(currentSlide + direction);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      changeSlide(1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      changeSlide(-1);
+    }
+  });
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const content = document.querySelector('.content');
+  content.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  content.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) changeSlide(1);
+      else changeSlide(-1);
+    }
+  }, { passive: true });
+  showSlide(0);
+</script>
+</body>
+</html>
